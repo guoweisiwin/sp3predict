@@ -7,7 +7,7 @@ Simple script to make DST predictions given a (Clockwork) VCF, a catalogue and a
 
 1. `gumpy`.
 2. `piezo`
-3. One or more AMR catalogues in the format required by `piezo`. Several published tuberculosis catalogues are available (here)[https://github.com/oxfordmmm/tuberculosis_amr_catalogues]
+3. One or more AMR catalogues in the format required by `piezo`. Several published tuberculosis catalogues are available [here](https://github.com/oxfordmmm/tuberculosis_amr_catalogues)
 
 Since the latter is large, rather than store it in the repo, recreate the object using `gumpy-save-genome.py` which should be in your `$PATH` if you have already installed `gumpy`.
 

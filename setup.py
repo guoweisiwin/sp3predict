@@ -8,7 +8,7 @@ setup(
     author_email="philip.fowler@ndm.ox.ac.uk",
     description="Antibiotic suscetibility predictions from a VCF file and a TB AMR catalogue.",
     url="https://github.com/philipwfowler/sp3predict",
-    package_data={'config/'},
+    package_data={'':['../config/*']},
     classifiers=[
         "Programming Language :: Python :: 3",
         "Operating System :: OS Independent"  ],

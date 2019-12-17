@@ -180,13 +180,13 @@ if __name__ == "__main__":
         for gene_name,mutation_name in zip(MUTATIONS_IN_CATALOGUE.GENE,MUTATIONS_IN_CATALOGUE.MUTATION):
 
             try:
-                valid=reference_genome.valid_gene_mutation(gene_name+"_"+mutation_name)
+                valid=reference_genome.valid_gene_mutation(gene_name+"@"+mutation_name)
             except:
                 valid=False
 
-            assert valid, gene_name+"_"+mutation_name+" is not a valid mutation!"
+            assert valid, gene_name+"@"+mutation_name+" is not a valid mutation!"
 
-            prediction=resistance_catalogue.predict(gene_name+"_"+mutation_name)
+            prediction=resistance_catalogue.predict(gene_name+"@"+mutation_name)
 
             # if it isn't an S, then a dictionary must have been returned
             if prediction!="S":

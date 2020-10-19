@@ -76,6 +76,11 @@ if __name__ == "__main__":
         # instantiate a Resistance Catalogue instance by passing a text file
         resistance_catalogue=piezo.ResistanceCatalogue(options.catalogue_file)
 
+        # identify the genes for which there is at least one row which is associated with resistance
+        resistance_genes=resistance_catalogue.catalogue.rules.loc[resistance_catalogue.catalogue.rules.PREDICTION=='R'][['GENE','DRUG']].groupby(['DRUG','GENE']).count()
+        resistance_genes.reset_index(inplace=True)
+
+
     if options.debug:
         print("Creating a sample Genome object by copying the reference Genome object...")
 
@@ -194,22 +199,27 @@ if __name__ == "__main__":
                 # iterate through the drugs in the dictionary (can be just one)
                 for drug_name in prediction:
 
-                    # only for completeness as this logic never leads to a change since by default the phenotype is S
-                    if drug_name and prediction[drug_name]=="S" and phenotype[drug_name]=="S":
-                        phenotype[drug_name]="S"
+                    foo=resistance_genes.loc[(resistance_genes.DRUG==drug_name) & (resistance_genes.GENE==gene_name)]
 
-                    # if the prediction is a U, we only move to a U if the current prediction is S
-                    # (to stop it overiding an R)
-                    # (again for completeness including the superfluous state)
-                    elif drug_name and prediction[drug_name]=="U" and phenotype[drug_name] in ["S","U"]:
-                        phenotype[drug_name]="U"
+                    # only let genes in the resistance genes affect the phenotype
+                    if not foo.empty:
 
-                    # finally if an R is predicted, it must be R
-                    elif drug_name and prediction[drug_name]=="R":
-                        phenotype[drug_name]="R"
+                        # only for completeness as this logic never leads to a change since by default the phenotype is S
+                        if drug_name and prediction[drug_name]=="S" and phenotype[drug_name]=="S":
+                            phenotype[drug_name]="S"
 
-                    EFFECTS_dict[EFFECTS_counter]=[sample_genome.name,gene_name,mutation_name,resistance_catalogue.catalogue.name,drug_name,prediction[drug_name]]
-                    EFFECTS_counter+=1
+                        # if the prediction is a U, we only move to a U if the current prediction is S
+                        # (to stop it overiding an R)
+                        # (again for completeness including the superfluous state)
+                        elif drug_name and prediction[drug_name]=="U" and phenotype[drug_name] in ["S","U"]:
+                            phenotype[drug_name]="U"
+
+                        # finally if an R is predicted, it must be R
+                        elif drug_name and prediction[drug_name]=="R":
+                            phenotype[drug_name]="R"
+
+                        EFFECTS_dict[EFFECTS_counter]=[sample_genome.name,gene_name,mutation_name,resistance_catalogue.catalogue.name,drug_name,prediction[drug_name]]
+                        EFFECTS_counter+=1
             else:
                 EFFECTS_dict[EFFECTS_counter]=[sample_genome.name,gene_name,mutation_name,resistance_catalogue.catalogue.name,"UNK","S"]
                 EFFECTS_counter+=1

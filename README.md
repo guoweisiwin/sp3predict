@@ -18,8 +18,8 @@ This will take about five minutes.
 Now you are ready
 
 ```
-$ sp3predict.py --vcf_file tests/test-cases/01/01.vcf,\
-                --catalogue_file ../tuberculosis_amr_catalogues/catalogues/NC_000962.3/NC_000962.3_NEJM2018_v1.0_GARC1_RUS.csv,\
+$ sp3predict.py --vcf_file tests/test-cases/01/01.vcf \
+                --catalogue_file ../tuberculosis_amr_catalogues/catalogues/NC_000962.3/NC_000962.3_NEJM2018_v1.0_GARC1_RUS.csv \
                 --progress --ignore_vcf_status --ignore_vcf_filter --genome_object config/H37rV_v3.pkl.gz 
 ```
 
